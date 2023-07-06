@@ -12,15 +12,25 @@ struct UserDetailCard: View {
     let user: Results // Assuming you have a User model with relevant properties
 
     @Binding var openPopup : Bool
+    @Binding var isNavigate : Bool
     
     var body: some View {
         VStack {
-            Image(systemName: "xmark")
-                .frame(maxWidth: .infinity,alignment: .topTrailing)
-                .foregroundColor(.red)
-                .onTapGesture {
-                    self.openPopup = false
+            HStack {
+                Spacer()
+                Image(systemName: "arrow.uturn.forward.circle.fill")
+                    .foregroundColor(.blue)
+                    .onTapGesture {
+                        self.isNavigate = true
+                    }
+
+                Image(systemName: "xmark")
+                    .foregroundColor(.red)
+                    .onTapGesture {
+                        self.openPopup = false
+                        self.isNavigate = false
                 }
+            }
             HStack{
                 KFImage(URL(string: user.picture?.large ?? ""))
                     .resizable()
@@ -62,7 +72,8 @@ struct UserDetailCARD_Previews: PreviewProvider {
     static let user = Results ()
     static var previews: some View {
         @State var openPopup = false
+        @State var isNavigate = false
 
-        UserDetailCard(user: user,openPopup: $openPopup)
+        UserDetailCard(user: user,openPopup: $openPopup,isNavigate: $isNavigate)
     }
 }
